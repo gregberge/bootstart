@@ -1,0 +1,16 @@
+{
+  "name": "bootstart",
+  "version": "0.1.0",
+  "description": "Modern website project starter",
+  "dependencies": {
+    "requirejs": "*",
+    "requirejs-text": "*",
+    "less.js": "*",
+    "backbone": "*",
+    "underscore": "*",
+    "jquery": "*",
+    "bootstrap": "*",
+    "font-awesome": "*",
+    "hogan": "*"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "bootstart",
+  "version": "0.1.0",
+  "description": "Modern website project starter",
+  "main": "./server",
+  "dependencies": {
+    "express": "*",
+    "consolidate": "*",
+    "hogan.js": "*",
+    "lodash" : "*"
+    },
+    "devDependencies": {
+     "grunt-requirejs": "*",
+     "grunt-less": "*"
+   }
+ }
