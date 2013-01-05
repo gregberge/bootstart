@@ -7,7 +7,7 @@ Bootstart is a modern website project starter. It uses backbone, require.js, bow
 
 * install [Node.js](http://www.nodejs.org/)
 * install [Bower](https://github.com/twitter/bower)
-* clone the project git clone : [https://github.com/neoziro/bootstart.git]()
+* clone the project git clone : [https://github.com/neoziro/bootstart.git](https://github.com/neoziro/bootstart.git)
 * install dependencies : `make install`
 
 
