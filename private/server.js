@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express'),
 app = express(),
 cons = require("consolidate"),
@@ -10,7 +12,8 @@ app.configure(function() {
 	app.engine("html", cons.hogan);
 	app.set("view engine", "html");
 	app.set("views", __dirname + "/../public/templates");
-	app.use(express.static(__dirname + "/../public"));
+	app.use(express['static'](__dirname + "/../public"));
+  app.use(express.compress());
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(app.router);

@@ -18,19 +18,15 @@ define(
         this.views = [];
 
         var self = this,
-        route,
-        routeConfig;
+        routeConfig,
+        handleRouteConfig = function(routeConfig) {
+          self.route(route, routeConfig.page, function() {
+            self.routeHandler(routeConfig, arguments);
+          });
+        };
 
-        for(route in this.routes) {
-          routeConfig = this.routes[route];
-          (
-            function(routeConfig) {
-              self.route(route, routeConfig.page, function() {
-                self.routeHandler(routeConfig, arguments);
-              });
-            }
-            (routeConfig)
-            );
+        for(var route in this.routes) {
+          handleRouteConfig(this.routes[route]);
         }
       },
 
@@ -61,8 +57,10 @@ define(
 
         pageView.urlParams = params;
 
-        typeof pageView.load !== "undefined" && pageView.load();
-        
+        if(typeof pageView.load !== "undefined") {
+          pageView.load();
+        }
+
         pageView.render();
       },
 

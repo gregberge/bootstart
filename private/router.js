@@ -1,3 +1,5 @@
+"use strict";
+
 var router = function(app) {
 	app.get('/', function(req, res) {
 
