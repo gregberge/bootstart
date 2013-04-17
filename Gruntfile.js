@@ -1,90 +1,69 @@
-var _ = require('lodash'),
-spawn = require('child_process').spawn,
-// require.js configuration load from main
-rjsConfig = require('./public/modules/main');
-_.extend(rjsConfig, {
-  baseUrl: './public/modules',
-  name: 'main',
-  out: 'public/dist/main.js',
-  optimize: 'uglify2',
-  generateSourceMaps: true,
-  preserveLicenseComments: false,
-  useSourceUrl: true
-});
+module.exports = function (grunt) {
 
-module.exports = function( grunt ) {
-  'use strict';
-  //
-  // Grunt configuration:
-  //
-  // https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
-  //
   grunt.initConfig({
-
     pkg: grunt.file.readJSON('package.json'),
 
-    // The clean task ensures all files are removed from the public/dist/ directory so
-    // that no files linger from previous builds.
-    clean: ['public/dist/'],
-
-    // The lint task will run the build configuration and the application
-    // JavaScript through JSHint and report any errors.  You can change the
-    // options for this task, by reading this:
-    // https://github.com/gruntjs/grunt/blob/0.3-stable/docs/task_lint.md
-    lint: {
-      files: [
-      ]
-    },
-
-    // JSHint configuration
     jshint: {
       options: {
-        browser: true,
-        node: true,
-        globals: {
-          jQuery: true
-        }
+        jshintrc: '.jshintrc'
       },
-      all: ['grunt.js', 'private/**/*.js', 'public/templates/**/*.js', 'public/modules/**/*.js']
+      'default': ['Gruntfile.js', 'app/**/*.js']
     },
 
-    // requirejs configuration
-    requirejs: {
-      compile: {
-        options: rjsConfig
-      }
-    },
-
-    // uglify configuration
-    uglify: {
-      all: {
-        files: {
-          'public/dist/require.js' : ['public/components/requirejs/require.js']
-        }
-      }
-    },
-
-    // less configuration
     less: {
-      all: {
-        files: {
-          'public/dist/main.css' : 'public/less/*.less'
-        },
+      'default': {
         options: {
+          paths: ['app/assets/less', 'public'],
           compress: true,
           yuicompress: true
+        },
+        files: {
+          'public/assets/css/main.css': ['app/assets/less/main.less']
+        }
+      }
+    },
+
+    copy: {
+      'default': {
+        files: {
+          'public/assets/': 'components/**/*'
+        }
+      }
+    },
+
+    requirejs: {
+      'default': {
+        options: {
+          appDir: 'app/assets',
+          baseUrl: '.',
+          keepBuildDir: true,
+          skipDirOptimize: true,
+          mainConfigFile: 'app/assets/js/main.js',
+          optimizeCss: 'none',
+          modules: [
+            {
+              name: 'js/main'
+            }
+          ],
+          dir: 'public/assets'
+        }
+      }
+    },
+
+    uglify: {
+      'default': {
+        files: {
+          'public/assets/js/require.js' : 'components/requirejs/require.js'
         }
       }
     }
-
   });
 
-grunt.loadNpmTasks('grunt-contrib-uglify');
-grunt.loadNpmTasks('grunt-contrib-less');
-grunt.loadNpmTasks('grunt-contrib-requirejs');
-grunt.loadNpmTasks('grunt-contrib-clean');
-grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-grunt.registerTask('default', ['jshint', 'clean', 'uglify', 'requirejs', 'less']);
-
+  grunt.registerTask('default', ['jshint', 'less', 'copy', 'requirejs', 'uglify']);
 };

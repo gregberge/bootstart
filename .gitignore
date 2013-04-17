@@ -1,3 +1,8 @@
-node_modules/
-components/
-dist/
+# npm
+/node_modules
+
+# bower
+/components
+
+# build
+/public/assets
