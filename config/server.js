@@ -13,6 +13,9 @@ app.configure(function() {
   app.set('view engine', 'hbs');
   app.set('views', global.base + '/app');
 
+  //md5 helper
+  require(global.base + '/app/helpers/md5');
+
   // aliases
   app.use('/assets/components', express.static(global.base + '/components'));
 });
