@@ -50,8 +50,17 @@
   "supernew": false,
   "validthis": false,
 
-  "browser": false,
-  "jquery": false,
-  "node": true,
-  "devel": true
+  "browser": true,
+  "jquery": true,
+  "node": false,
+  "devel": false,
+
+  "globals": {
+    "requirejs": false,
+    "require": false,
+    "define": false,
+    "Backbone": false,
+    "Handlebars": false,
+    "_": false
+  }
 }

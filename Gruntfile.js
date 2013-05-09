@@ -4,10 +4,24 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
-      options: {
-        jshintrc: '.jshintrc'
+      'node': {
+        options: {
+          jshintrc: '.jshintrc'
+        },
+        src: ['Gruntfile.js', 'app/**/*.js', '!app/assets/**/*.js']
       },
-      'default': ['Gruntfile.js', 'app/**/*.js']
+      'browser': {
+        options: {
+          jshintrc: 'app/assets/js/.jshintrc'
+        },
+        src: ['app/assets/**/*.js']
+      }
+    },
+
+    simplemocha: {
+      all: {
+        src: ['test/**/*.js', '!test/fixtures/**/*.js']
+      }
     },
 
     less: {
@@ -56,14 +70,26 @@ module.exports = function (grunt) {
           'public/assets/js/require.js' : 'components/requirejs/require.js'
         }
       }
+    },
+
+    md5: {
+      'default': {
+        files: {
+          'public/assets/js/'  : ['public/assets/js/main.js', 'public/assets/js/require.js'],
+          'public/assets/css/' : 'public/assets/css/main.css'
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-md5');
 
-  grunt.registerTask('default', ['jshint', 'less', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('default', ['jshint:node', 'jshint:browser', 'simplemocha', 'less', 'copy', 'requirejs', 'uglify', 'md5']);
+  grunt.registerTask('test', ['jshint:node', 'jshint:browser', 'simplemocha']);
 };
